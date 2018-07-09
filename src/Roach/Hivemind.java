@@ -39,6 +39,8 @@ public class Hivemind {
     public static final int MULTI = 100;
     
     protected static final int MAX_TIMEOUT = 30000;
+    private boolean isPrintMode = false;
+    private String printstream = "";
     private String[] hvpath;
     private String[] cstofind;
     private String[] rspath;
@@ -85,7 +87,12 @@ public class Hivemind {
                 if(!ifColumnExists(tname, ttable[l])) 
                     stat.executeUpdate("ALTER TABLE "+tname+" ADD "+ttable[l]+" "+entrytype+";");
             
-            insertToDB(tname, toInsert);
+            if(isPrintMode) {
+                System.out.println(toInsert);
+                this.printstream = toInsert.toString();
+            } else {
+                insertToDB(tname, toInsert);
+            }
             
         } catch(SQLException exc) {
             System.out.println(exc.toString());
@@ -246,6 +253,10 @@ public class Hivemind {
         return this.rspath;
     }
     
+    public synchronized String getPrintStream() {
+        return this.printstream;
+    }
+    
     public synchronized void setHivemindPath(String[] path) {
         this.hvpath = path;
     }
@@ -264,6 +275,10 @@ public class Hivemind {
     
     public synchronized void setResultPath(String[] path) {
         this.rspath = path;
+    }
+    
+    public synchronized void setPrintMode() {
+        this.isPrintMode = true;
     }
 
     //Private methods
