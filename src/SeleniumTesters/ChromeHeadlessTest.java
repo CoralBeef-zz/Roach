@@ -66,14 +66,14 @@ public class ChromeHeadlessTest {
             ChromeOptions opt = new ChromeOptions();
             opt.addArguments("--incognito");
             opt.addArguments("--start-maximized");
-            WebDriver displayedBrowser = new ChromeDriver(opt);
-            displayedBrowser.get(driver.getCurrentUrl());
+            //WebDriver displayedBrowser = new ChromeDriver(opt);
+            //displayedBrowser.get(driver.getCurrentUrl());
             
             String mappath = "//*[@id=\"icn_no1\"]/div[1]/a"; //The cssSelector of that javascript-generated thing
             /*This next code is an instance of explicit wait, basically checking every 500ms 
                up to the defined timeout. If the conditions are met, only then will it assign 
                myDynamicElement a value, then it proceeds */
-            WebElement myDynamicElement = (new WebDriverWait(displayedBrowser, 10)) //<- Timeout integer
+            WebElement myDynamicElement = (new WebDriverWait(driver, 10)) //<- Timeout integer
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath(mappath)));
 
             System.out.println("It is " + (myDynamicElement.isDisplayed() ? "DISPLAYED" : "NOT displayed")
@@ -83,8 +83,10 @@ public class ChromeHeadlessTest {
                 System.out.println("The javascript-generated thing is displayed! Clicking it!");
                 myDynamicElement.click();
             }
-            System.out.println("The last link is:  "+displayedBrowser.getCurrentUrl());
+            System.out.println("The last link is:  "+driver.getCurrentUrl());
 
+            System.out.println("Done! Quitting..");
+            driver.quit();
         } catch(Exception e) {
             System.out.println(e.toString());
             driver.quit();

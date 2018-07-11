@@ -280,6 +280,10 @@ public class Hivemind {
     public synchronized void setPrintMode() {
         this.isPrintMode = true;
     }
+    
+    public synchronized void setPrintMode(boolean turnOffIfFalse) {
+        this.isPrintMode = turnOffIfFalse;
+    }
 
     //Private methods
     
